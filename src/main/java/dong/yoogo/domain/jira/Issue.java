@@ -18,13 +18,14 @@ import java.time.ZonedDateTime;
 public class Issue {
     @Id
     private Long id;
+    private ZonedDateTime created;
     private String issueKey;
     private Integer issueTypeId;
     private String issueTypeName;
     private Integer projectId;
     private String projectKey;
-    private ZonedDateTime updated;
-    private ZonedDateTime created;
+    private String projectName;
     private Integer statusId;
     private String  statusName;
+    private ZonedDateTime updated;
 }

@@ -16,6 +16,7 @@ public class IssueIN {
                 .issueTypeName(fields.issueType.name)
                 .projectId(fields.project.id)
                 .projectKey(fields.project.key)
+                .projectName(fields.project.name)
                 .statusId(fields.status.id)
                 .statusName(fields.status.name)
                 .updated(fields.updated)
