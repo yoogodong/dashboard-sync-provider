@@ -3,6 +3,8 @@ package dong.yoogo.application;
 
 import dong.yoogo.application.jira.ResultIN;
 
+import java.util.function.Consumer;
+
 public interface JiraClient {
-    ResultIN getIssues(int startAt, int maxResults);
+    void pagedSync(Consumer<ResultIN> resultINConsumer);
 }
