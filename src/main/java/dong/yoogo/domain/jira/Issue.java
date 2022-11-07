@@ -35,7 +35,7 @@ public class Issue {
     @Column(length = 50)
     private String projectName;
     private Integer statusId;
-    @Column(length = 10)
+    @Column(length = 50)
     private String  statusName;
     private ZonedDateTime updated;
     @JoinColumn(name = "issue_id")

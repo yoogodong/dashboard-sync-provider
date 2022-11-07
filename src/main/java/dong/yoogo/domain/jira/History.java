@@ -18,9 +18,9 @@ import java.util.List;
 public class History {
     @Id
     private Long id;
-    @Column(length = 30)
+    @Column(length = 50)
     private String authorKey;
-    @Column(length = 30)
+    @Column(length = 50)
     private String authorDisplayName;
     private ZonedDateTime created;
     @ElementCollection

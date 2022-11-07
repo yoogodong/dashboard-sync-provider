@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Embeddable
 public class HistoryItem {
-    @Column(length = 20)
+    @Column(length = 30)
     private String field;
     @Column(length = 20)
     private String fieldtype;
