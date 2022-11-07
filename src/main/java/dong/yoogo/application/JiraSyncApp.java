@@ -3,6 +3,7 @@ package dong.yoogo.application;
 import dong.yoogo.domain.jira.IssueRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@PropertySource("classpath:config/dashboard-sync-provider.properties")
 public class JiraSyncApp {
     private final JiraClient jira;
     private final IssueRepository repository;
