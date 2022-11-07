@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.time.ZonedDateTime;
 
 @Repository
-public interface IssueRepository extends JpaRepository<Issue,Long> {
+public interface IssueRepository extends JpaRepository<Issue, Long> {
     @Query("select max(i.updated) from Issue i where i.projectId=:pid")
     ZonedDateTime queryLastUpdatedOf(Integer pid);
 }

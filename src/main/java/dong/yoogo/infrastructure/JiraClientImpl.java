@@ -29,8 +29,9 @@ public class JiraClientImpl implements JiraClient {
 
     /**
      * query issues  from jira
-     * @param pid   project id
-     * @param updatedFrom  updated start time
+     *
+     * @param pid           project id
+     * @param updatedFrom   updated start time
      * @param resultHandler result handler
      */
     @Override
@@ -41,7 +42,7 @@ public class JiraClientImpl implements JiraClient {
     private void pagingQuery(String pid, String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
         String jql = "updated>='" + updatedFrom + "'  AND  project = " + pid;
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql, fields, startAt, pageSize);
-        if (resultIN==null){
+        if (resultIN == null) {
             log.error("不能从 jira 获取 issue 数据");
             return;
         }
@@ -61,7 +62,7 @@ public class JiraClientImpl implements JiraClient {
     public List<String> getAllProjectsId() {
         final ArrayNode forObject = jiraRest.getForObject(projectUrl, ArrayNode.class);
         final List<String> ids = new ArrayList<>();
-        if (forObject==null){
+        if (forObject == null) {
             log.error("不能从 jira 获取 issue 数据");
             return ids;
         }

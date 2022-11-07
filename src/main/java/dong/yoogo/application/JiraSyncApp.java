@@ -2,7 +2,6 @@ package dong.yoogo.application;
 
 import dong.yoogo.domain.jira.IssueRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +12,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class JiraSyncApp {
-    @Autowired
-    private JiraClient jira;
-    @Autowired
-    private IssueRepository repository;
+    private final JiraClient jira;
+    private final IssueRepository repository;
 
     @Value("${provider.projects}")
     private List<String> projects;
@@ -25,6 +22,11 @@ public class JiraSyncApp {
     private String updatedFrom;
 
 
+    public JiraSyncApp(JiraClient jira, IssueRepository repository) {
+        this.jira = jira;
+        this.repository = repository;
+    }
+
     /**
      * synchronize issues for specified project list and specified time point
      */
@@ -32,13 +34,14 @@ public class JiraSyncApp {
         final List<String> pidList = evaluateProjects();
         pidList.parallelStream().forEach(pid -> {
             String lastUpdated = queryLastUpdatedOf(pid);
-            jira.queryIssuesOfProject(pid,lastUpdated, resultIN -> repository.saveAll(resultIN.getIssues()));
+            jira.queryIssuesOfProject(pid, lastUpdated, resultIN -> repository.saveAll(resultIN.getIssues()));
         });
     }
 
     /**
      * get the last updated time for specified project
-     * @param pid  project id
+     *
+     * @param pid project id
      * @return the last updated time
      */
     private String queryLastUpdatedOf(String pid) {
