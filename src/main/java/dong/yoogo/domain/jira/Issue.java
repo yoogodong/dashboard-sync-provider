@@ -34,7 +34,7 @@ public class Issue {
     private Integer statusId;
     private String  statusName;
     private ZonedDateTime updated;
-    @JoinColumn
+    @JoinColumn(name = "issue_id")
     @OneToMany(cascade = CascadeType.ALL)
     private List<History> histories;
 }
