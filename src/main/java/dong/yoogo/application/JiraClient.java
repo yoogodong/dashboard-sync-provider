@@ -11,5 +11,7 @@ public interface JiraClient {
 
     void pagedSync(String pid, Consumer<ResultIN> resultINConsumer);
 
+    void pagedSync(String pid,String updatedFrom, Consumer<ResultIN> resultINConsumer);
+
     List<String> getAllProjectsId();
 }

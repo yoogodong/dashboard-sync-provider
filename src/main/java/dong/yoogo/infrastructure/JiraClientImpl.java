@@ -36,6 +36,10 @@ public class JiraClientImpl implements JiraClient {
 
     private void pagedSync(int startAt, Consumer<ResultIN> resultINConsumer) {
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql, fields, startAt, pageSize);
+        if (resultIN == null){
+            log.error("jira server return null response");
+            return;
+        }
         log.debug("query jira result = {}", resultIN);
         resultINConsumer.accept(resultIN);
         if (resultIN.hasNext()) {
@@ -54,6 +58,21 @@ public class JiraClientImpl implements JiraClient {
     }
     private void pagedSync(String pid, int startAt, Consumer<ResultIN> resultINConsumer) {
         String jql_project = "updated>-1301d AND updated <-1290d  AND  project = "+pid;
+        final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql_project, fields, startAt, pageSize);
+        log.debug("query jira result = {}", resultIN);
+        resultINConsumer.accept(resultIN);
+        if (resultIN.hasNext()) {
+            pagedSync(pid,startAt+pageSize, resultINConsumer);
+        }
+    }
+
+    @Override
+    public void pagedSync(String pid,String updatedFrom,Consumer<ResultIN> resultINConsumer) {
+        pagedSync(pid,updatedFrom,0,resultINConsumer);
+    }
+
+    private void pagedSync(String pid,String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
+        String jql_project = "updated>='"+updatedFrom+"'  AND  project = "+pid;
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql_project, fields, startAt, pageSize);
         log.debug("query jira result = {}", resultIN);
         resultINConsumer.accept(resultIN);
