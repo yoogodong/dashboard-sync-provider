@@ -22,7 +22,7 @@ public class ChangelogIN {
 @Data
 class HistoryIN {
     Long id;
-    AuthorIN author;
+    AuthorIN author=new AuthorIN();//jira 中此字段有时为null
     ZonedDateTime created;
     List<HistoryItemIN> items;
 
