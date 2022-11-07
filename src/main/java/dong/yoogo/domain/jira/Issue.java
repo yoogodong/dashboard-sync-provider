@@ -27,11 +27,15 @@ public class Issue {
     @Column(unique = true,length = 20)
     private String issueKey;
     private Integer issueTypeId;
+    @Column(length = 20)
     private String issueTypeName;
     private Integer projectId;
+    @Column(length = 20)
     private String projectKey;
+    @Column(length = 50)
     private String projectName;
     private Integer statusId;
+    @Column(length = 10)
     private String  statusName;
     private ZonedDateTime updated;
     @JoinColumn(name = "issue_id")

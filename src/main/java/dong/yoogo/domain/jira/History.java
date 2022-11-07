@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,7 +18,9 @@ import java.util.List;
 public class History {
     @Id
     private Long id;
+    @Column(length = 30)
     private String authorKey;
+    @Column(length = 30)
     private String authorDisplayName;
     private ZonedDateTime created;
     @ElementCollection
