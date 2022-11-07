@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,6 +24,7 @@ public class Issue {
     @Id
     private Long id;
     private ZonedDateTime created;
+    @Column(unique = true,length = 20)
     private String issueKey;
     private Integer issueTypeId;
     private String issueTypeName;
