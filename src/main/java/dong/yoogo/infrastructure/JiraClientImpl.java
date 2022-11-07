@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -23,80 +22,54 @@ import java.util.function.Consumer;
 public class JiraClientImpl implements JiraClient {
     private RestTemplate jiraRest;
     private final String url = "https://jira.atlassian.com/rest/api/latest/search?jql={jql}&fields={fields}&expand=changelog,names&startAt={startAt}&maxResults={maxResults}";
-    private final String jql = "updated>-1301d AND updated <-1290d  AND  project IN (12200,14510)";
     private final String fields = "id,project,issuetype,status,updated,created";
     private final int pageSize = 10;
-
     private final String projectUrl = "https://jira.atlassian.com/rest/api/latest/project";
 
+
+    /**
+     * query issues  from jira
+     * @param pid   project id
+     * @param updatedFrom  updated start time
+     * @param resultHandler result handler
+     */
     @Override
-    public void pagedSync(Consumer<ResultIN> resultINConsumer) {
-        pagedSync(0, resultINConsumer);
+    public void queryIssuesOfProject(String pid, String updatedFrom, Consumer<ResultIN> resultHandler) {
+        pagingQuery(pid, updatedFrom, 0, resultHandler);
     }
 
-    private void pagedSync(int startAt, Consumer<ResultIN> resultINConsumer) {
+    private void pagingQuery(String pid, String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
+        String jql = "updated>='" + updatedFrom + "'  AND  project = " + pid;
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql, fields, startAt, pageSize);
-        if (resultIN == null){
-            log.error("jira server return null response");
+        if (resultIN==null){
+            log.error("不能从 jira 获取 issue 数据");
             return;
         }
         log.debug("query jira result = {}", resultIN);
         resultINConsumer.accept(resultIN);
         if (resultIN.hasNext()) {
-            pagedSync(startAt+pageSize, resultINConsumer);
+            pagingQuery(pid, updatedFrom, startAt + pageSize, resultINConsumer);
         }
     }
 
     /**
-     * 从指定的更新起始时间，获取指定的项目（pid) 的所有 issue
-     * @param pid  project id
-     * @param resultINConsumer callback
-     */
-    @Override
-    public void pagedSync(String pid,Consumer<ResultIN> resultINConsumer) {
-        pagedSync(pid,0,resultINConsumer);
-    }
-    private void pagedSync(String pid, int startAt, Consumer<ResultIN> resultINConsumer) {
-        String jql_project = "updated>-1301d AND updated <-1290d  AND  project = "+pid;
-        final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql_project, fields, startAt, pageSize);
-        log.debug("query jira result = {}", resultIN);
-        resultINConsumer.accept(resultIN);
-        if (resultIN.hasNext()) {
-            pagedSync(pid,startAt+pageSize, resultINConsumer);
-        }
-    }
-
-    @Override
-    public void pagedSync(String pid,String updatedFrom,Consumer<ResultIN> resultINConsumer) {
-        pagedSync(pid,updatedFrom,0,resultINConsumer);
-    }
-
-    private void pagedSync(String pid,String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
-        String jql_project = "updated>='"+updatedFrom+"'  AND  project = "+pid;
-        final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql_project, fields, startAt, pageSize);
-        log.debug("query jira result = {}", resultIN);
-        resultINConsumer.accept(resultIN);
-        if (resultIN.hasNext()) {
-            pagedSync(pid,startAt+pageSize, resultINConsumer);
-        }
-    }
-
-    /**
-     * 从 jira 中获取所有的项目的 id
-     * @return id list of all project in jira
+     * query jira for id list of all project
+     *
+     * @return id list of all project from jira
      */
     @Override
     public List<String> getAllProjectsId() {
         final ArrayNode forObject = jiraRest.getForObject(projectUrl, ArrayNode.class);
-        final Iterator<JsonNode> projects = forObject.iterator();
         final List<String> ids = new ArrayList<>();
-        while (projects.hasNext()){
-            ids.add(projects.next().get("id").textValue());
+        if (forObject==null){
+            log.error("不能从 jira 获取 issue 数据");
+            return ids;
+        }
+        for (JsonNode jsonNode : forObject) {
+            ids.add(jsonNode.get("id").textValue());
         }
         return ids;
     }
-
-
 
 
 }

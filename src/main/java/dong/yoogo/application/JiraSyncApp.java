@@ -24,35 +24,22 @@ public class JiraSyncApp {
     @Value("${provider.updatedFrom}")
     private String updatedFrom;
 
-    public void syncIssue2() {
-        jira.pagedSync(resultIN -> repository.saveAll(resultIN.getIssues()));
-    }
-
 
     /**
-     *
-     */
-    public void syncIssue3() {
-        final List<String> pidList = evaluateProjects();
-        pidList.parallelStream().forEach(pid -> jira.pagedSync(pid, resultIN -> repository.saveAll(resultIN.getIssues())));
-    }
-
-
-    /**
-     *
+     * synchronize issues for specified project list and specified time point
      */
     public void syncIssue() {
         final List<String> pidList = evaluateProjects();
         pidList.parallelStream().forEach(pid -> {
             String lastUpdated = queryLastUpdatedOf(pid);
-            jira.pagedSync(pid,lastUpdated, resultIN -> repository.saveAll(resultIN.getIssues()));
+            jira.queryIssuesOfProject(pid,lastUpdated, resultIN -> repository.saveAll(resultIN.getIssues()));
         });
     }
 
     /**
-     * 获取项目的最后更新时间
-     * @param pid  项目 id
-     * @return
+     * get the last updated time for specified project
+     * @param pid  project id
+     * @return the last updated time
      */
     private String queryLastUpdatedOf(String pid) {
         ZonedDateTime zonedDateTime = repository.queryLastUpdatedOf(Integer.valueOf(pid));

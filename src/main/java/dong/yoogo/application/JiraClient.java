@@ -7,11 +7,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface JiraClient {
-    void pagedSync(Consumer<ResultIN> resultINConsumer);
-
-    void pagedSync(String pid, Consumer<ResultIN> resultINConsumer);
-
-    void pagedSync(String pid,String updatedFrom, Consumer<ResultIN> resultINConsumer);
+    void queryIssuesOfProject(String pid, String updatedFrom, Consumer<ResultIN> resultINConsumer);
 
     List<String> getAllProjectsId();
 }
