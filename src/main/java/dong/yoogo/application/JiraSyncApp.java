@@ -34,10 +34,10 @@ public class JiraSyncApp {
      */
     public void syncIssue() {
         final List<String> pks = evaluateProjects();
-        log.info("将同步以下项目的 issue : {}",pks);
+        log.info("将同步以下 {} 个项目的 issue : {}",pks.size(),pks);
         pks.parallelStream().forEach(projectKey -> {
             String lastUpdated = queryLastUpdatedOf(projectKey);
-            log.info("项目{}上次的同步时间：{}",projectKey,lastUpdated);
+            log.info("项目{}将获取 {} 及之后更新的数据",projectKey,lastUpdated);
             jira.queryIssuesOfProject(projectKey, lastUpdated, resultIN -> repository.saveAll(resultIN.getIssues()));
         });
     }
@@ -50,6 +50,7 @@ public class JiraSyncApp {
      */
     private String queryLastUpdatedOf(String projectKey) {
         ZonedDateTime zonedDateTime = repository.queryLastUpdatedOf(projectKey);
+        log.info("项目 {} 最后的同步时间 {}",projectKey,zonedDateTime==null?"不存在":zonedDateTime);
         if (zonedDateTime == null) return updatedFrom;
         return zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
