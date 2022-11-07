@@ -20,7 +20,7 @@ public class History {
     private Long id;
     @Column(length = 50)
     private String authorKey;
-    @Column(length = 50)
+    @Column(length = 100)
     private String authorDisplayName;
     private ZonedDateTime created;
     @ElementCollection
