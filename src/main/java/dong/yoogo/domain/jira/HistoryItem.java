@@ -15,7 +15,7 @@ public class HistoryItem {
     @Column(length = 30)
     private String field;
     @Column(length = 20)
-    private String fieldtype;
+    private String fieldType;
     @Column(length = 20)
     private String fromValue;
     @Column(length = 20)

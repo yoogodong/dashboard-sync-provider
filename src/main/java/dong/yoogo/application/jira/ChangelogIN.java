@@ -56,7 +56,7 @@ class HistoryItemIN {
     public HistoryItem toItem() {
         return HistoryItem.builder()
                 .field(field)
-                .fieldtype(fieldtype)
+                .fieldType(fieldtype)
                 .fromValue(limitLength(from))
                 .toValue(limitLength(to))
                 .fromString(limitLength(fromString))
