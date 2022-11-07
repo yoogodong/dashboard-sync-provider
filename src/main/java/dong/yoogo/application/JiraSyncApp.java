@@ -34,8 +34,10 @@ public class JiraSyncApp {
      */
     public void syncIssue() {
         final List<String> pidList = evaluateProjects();
+        log.info("将同步以下项目的 issue : {}",pidList);
         pidList.parallelStream().forEach(pid -> {
             String lastUpdated = queryLastUpdatedOf(pid);
+            log.info("项目{}上次的同步时间：{}",pid,lastUpdated);
             jira.queryIssuesOfProject(pid, lastUpdated, resultIN -> repository.saveAll(resultIN.getIssues()));
         });
     }

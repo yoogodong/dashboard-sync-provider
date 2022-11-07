@@ -4,9 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  *
@@ -28,4 +32,7 @@ public class Issue {
     private Integer statusId;
     private String  statusName;
     private ZonedDateTime updated;
+    @JoinColumn
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<History> histories;
 }

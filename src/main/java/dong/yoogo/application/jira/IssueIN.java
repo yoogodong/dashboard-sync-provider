@@ -8,6 +8,7 @@ public class IssueIN {
     long id;
     String key;
     FieldsIN fields;
+    ChangelogIN changelog;
 
     public Issue toIssue() {
         return Issue.builder().id(id).issueKey(key)
@@ -20,6 +21,7 @@ public class IssueIN {
                 .statusId(fields.status.id)
                 .statusName(fields.status.name)
                 .updated(fields.updated)
+                .histories(changelog.toHistoryList())
                 .build();
     }
 }

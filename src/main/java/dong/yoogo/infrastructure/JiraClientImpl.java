@@ -53,7 +53,7 @@ public class JiraClientImpl implements JiraClient {
             log.error("不能从 jira 获取 issue 数据");
             return;
         }
-        log.debug("query jira result = {}", resultIN);
+        log.info("项目 {} 的同步进展： {}",pid, resultIN);
         resultINConsumer.accept(resultIN);
         if (resultIN.hasNext()) {
             pagingQuery(pid, updatedFrom, startAt + pageSize, resultINConsumer);
@@ -67,6 +67,7 @@ public class JiraClientImpl implements JiraClient {
      */
     @Override
     public List<String> getAllProjectsId() {
+        log.debug("从 jira 中查询项目列表");
         String url = hostAndContext+"/latest/project";
         final ArrayNode forObject = jiraRest.getForObject(url, ArrayNode.class);
         final List<String> ids = new ArrayList<>();
