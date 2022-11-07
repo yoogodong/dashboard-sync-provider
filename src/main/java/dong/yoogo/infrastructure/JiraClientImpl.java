@@ -46,7 +46,7 @@ public class JiraClientImpl implements JiraClient {
 
     private void pagingQuery(String pid, String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
         String url = hostAndContext+"/latest/search?jql={jql}&fields={fields}&expand=changelog,names&startAt={startAt}&maxResults={maxResults}";
-        String jql = "updated>='" + updatedFrom + "'  AND  project = '" + pid +"'";
+        String jql = "updated>='" + updatedFrom + "'  AND  project = '" + pid +"' order by updated asc";
         String fields = "id,project,issuetype,status,updated,created";
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql, fields, startAt, pageSize);
         if (resultIN == null) {
