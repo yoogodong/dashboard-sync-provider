@@ -26,9 +26,8 @@ public class ResultIN {
     }
 
     public List<Issue> getIssues(){
-        return issues.parallelStream()
-                .map(in->in.toIssue())
+        return issues.stream()
+                .map(IssueIN::toIssue)
                 .collect(Collectors.toList());
     }
-
 }
