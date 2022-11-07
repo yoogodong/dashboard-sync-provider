@@ -8,6 +8,6 @@ import java.time.ZonedDateTime;
 
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Long> {
-    @Query("select max(i.updated) from Issue i where i.projectId=:pid")
-    ZonedDateTime queryLastUpdatedOf(Integer pid);
+    @Query("select max(i.updated) from Issue i where i.projectKey=:pk")
+    ZonedDateTime queryLastUpdatedOf(String pk);
 }

@@ -8,5 +8,5 @@ import java.util.function.Consumer;
 
 public interface JiraClient {
     void queryIssuesOfProject(String pid, String updatedFrom, Consumer<ResultIN> resultINConsumer);
-    List<String> getAllProjectsId();
+    List<String> projectKeyList();
 }

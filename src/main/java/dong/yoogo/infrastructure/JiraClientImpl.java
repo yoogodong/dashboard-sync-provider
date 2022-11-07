@@ -46,7 +46,7 @@ public class JiraClientImpl implements JiraClient {
 
     private void pagingQuery(String pid, String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
         String url = hostAndContext+"/latest/search?jql={jql}&fields={fields}&expand=changelog,names&startAt={startAt}&maxResults={maxResults}";
-        String jql = "updated>='" + updatedFrom + "'  AND  project = " + pid;
+        String jql = "updated>='" + updatedFrom + "'  AND  project = '" + pid +"'";
         String fields = "id,project,issuetype,status,updated,created";
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql, fields, startAt, pageSize);
         if (resultIN == null) {
@@ -66,18 +66,18 @@ public class JiraClientImpl implements JiraClient {
      * @return id list of all project from jira
      */
     @Override
-    public List<String> getAllProjectsId() {
+    public List<String> projectKeyList() {
         log.debug("从 jira 中查询项目列表");
         String url = hostAndContext+"/latest/project";
         final ArrayNode forObject = jiraRest.getForObject(url, ArrayNode.class);
-        final List<String> ids = new ArrayList<>();
+        final List<String> pks = new ArrayList<>();
         if (forObject == null) {
             log.error("不能从 jira 获取 issue 数据");
-            return ids;
+            return pks;
         }
         for (JsonNode jsonNode : forObject) {
-            ids.add(jsonNode.get("id").textValue());
+            pks.add(jsonNode.get("key").textValue());
         }
-        return ids;
+        return pks;
     }
 }
