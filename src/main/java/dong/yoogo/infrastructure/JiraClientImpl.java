@@ -23,8 +23,7 @@ import java.util.function.Consumer;
 @PropertySource("classpath:config/dashboard-sync-provider.properties")
 public class JiraClientImpl implements JiraClient {
     private final RestTemplate jiraRest;
-    @Value("${provider.jira.hostAndContext}")
-    private String hostAndContext;
+
     @Value("${provider.jira.pageSize}")
     private int pageSize;
 
@@ -45,7 +44,7 @@ public class JiraClientImpl implements JiraClient {
     }
 
     private void pagingQuery(String pid, String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
-        String url = hostAndContext+"/latest/search?jql={jql}&fields={fields}&expand=changelog,names&startAt={startAt}&maxResults={maxResults}";
+        String url = "/latest/search?jql={jql}&fields={fields}&expand=changelog,names&startAt={startAt}&maxResults={maxResults}";
         String jql = "updated>='" + updatedFrom + "'  AND  project = '" + pid +"' order by updated asc";
         String fields = "id,project,issuetype,status,updated,created";
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql, fields, startAt, pageSize);
@@ -68,7 +67,7 @@ public class JiraClientImpl implements JiraClient {
     @Override
     public List<String> projectKeyList() {
         log.debug("从 jira 中查询项目列表");
-        String url = hostAndContext+"/latest/project";
+        String url = "/latest/project";
         final ArrayNode forObject = jiraRest.getForObject(url, ArrayNode.class);
         final List<String> pks = new ArrayList<>();
         if (forObject == null) {
