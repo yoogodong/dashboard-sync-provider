@@ -1,8 +1,10 @@
--- 这三个表，有一个修改， 其他两个都要重建，所以放在一起
+-- 这三个表，有一个修改， 其他两个都应该重建，所以放在一起
 drop table if exists issue;
 create table issue
 (
     id               bigint not null,
+    component_id     integer,
+    component_name   varchar(20),
     created          datetime(6),
     fix_version_id   integer,
     fix_version_name varchar(20),
@@ -16,7 +18,7 @@ create table issue
     status_name      varchar(50),
     updated          datetime(6),
     primary key (id)
-) engine = MyISAM;
+) engine = InnoDB;
 
 
 drop table if exists history;
@@ -27,8 +29,11 @@ create table history
     author_key          varchar(50),
     created             datetime(6),
     issue_id            bigint,
-    primary key (id)
-) engine = MyISAM;
+    primary key (id),
+    FOREIGN KEY (issue_id)
+        REFERENCES issue (id)
+        ON DELETE CASCADE
+) engine = InnoDB;
 
 drop table if exists history_items;
 create table history_items
@@ -39,8 +44,11 @@ create table history_items
     from_string varchar(20),
     from_value  varchar(20),
     to_string   varchar(20),
-    to_value    varchar(20)
-) engine = MyISAM;
+    to_value    varchar(20),
+    foreign key (history_id)
+        REFERENCES history (id)
+        ON DELETE CASCADE
+) engine = InnoDB;
 
 
 
