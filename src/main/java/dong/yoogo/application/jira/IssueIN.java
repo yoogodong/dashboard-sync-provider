@@ -10,9 +10,12 @@ public class IssueIN {
     FieldsIN fields;
     ChangelogIN changelog;
 
+
     public Issue toIssue() {
         return Issue.builder().id(id).issueKey(key)
                 .created(fields.created)
+                .fixVersionId(fields.getFixVersionId())
+                .fixVersionName(fields.getFixVersionName())
                 .issueTypeId(fields.issueType.id)
                 .issueTypeName(fields.issueType.name)
                 .projectId(fields.project.id)

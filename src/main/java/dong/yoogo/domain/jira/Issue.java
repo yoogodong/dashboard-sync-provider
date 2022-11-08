@@ -24,6 +24,8 @@ public class Issue {
     @Id
     private Long id;
     private ZonedDateTime created;
+    private Integer fixVersionId;
+    private String  fixVersionName;
     @Column(unique = true,length = 20)
     private String issueKey;
     private Integer issueTypeId;
