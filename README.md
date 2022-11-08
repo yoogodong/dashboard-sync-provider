@@ -13,4 +13,8 @@
 
 #变更
 ### 扩展字段
+- 在 JiraClientImple 过滤的 fields 中添加当前字段, 要与json 中的属性名相同
+- 在 Issue 中添加字段
+- 在 IssueIN 及其关联的成员中映射json 模型， 并转化成 Issue 的字段
+- 在建表 DDL 中添加字段
 
