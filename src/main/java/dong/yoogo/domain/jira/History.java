@@ -3,6 +3,7 @@ package dong.yoogo.domain.jira;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class History {
+public class History implements Persistable<Long> {
     @Id
     private Long id;
     @Column(length = 50)
@@ -25,4 +26,14 @@ public class History {
     private ZonedDateTime created;
     @ElementCollection
     private List<HistoryItem> items;
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return true;
+    }
 }

@@ -3,6 +3,7 @@ package dong.yoogo.domain.jira;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Issue {
+public class Issue implements Persistable<Long> {
     @Id
     private Long id;
     private Integer componentId;
@@ -45,4 +46,14 @@ public class Issue {
     @JoinColumn(name = "issue_id", nullable = false, updatable = false)
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<History> histories;
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return true;
+    }
 }
