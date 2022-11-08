@@ -4,55 +4,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Data
 public class FieldsIN {
-    List<fixVersion>  fixVersions;
-    @JsonProperty("issuetype")
-    IssueTypeIN issueType;
-    ProjectIN project;
-    ZonedDateTime updated;
     ZonedDateTime created;
-    StatusIN status;
+    List<IdKeyName> components;
+    List<IdKeyName>  fixVersions;
+    @JsonProperty("issuetype")
+    IdKeyName issueType;
+    IdKeyName project;
+    ZonedDateTime updated;
+    IdKeyName status;
+
+    void postConstruct(){
+       components = components.isEmpty()? Collections.singletonList(new IdKeyName()):components;
+       fixVersions = fixVersions.isEmpty()? Collections.singletonList(new IdKeyName()):fixVersions;
+    }
+
+    Integer getComponentId(){
+        return components.get(0).id;
+    }
+
+    String getComponentName(){
+        return components.get(0).name;
+    }
 
     Integer getFixVersionId() {
-        if (fixVersions.isEmpty())
-            return null;
         return fixVersions.get(0).id;
     }
 
     String getFixVersionName(){
-        if (fixVersions.isEmpty())
-            return null;
         return fixVersions.get(0).name;
     }
 
 }
-
 @Data
-class fixVersion {
+class IdKeyName {
     Integer id;
-    String name;
-}
-
-@Data
-class IssueTypeIN {
-    int id;
-    String name;
-}
-
-@Data
-class ProjectIN {
-    int id;
     String key;
     String name;
 }
 
-@Data
-class StatusIN {
-    int id;
-    String name;
-}
+
 
 

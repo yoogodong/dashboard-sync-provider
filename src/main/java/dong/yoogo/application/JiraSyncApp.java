@@ -1,5 +1,6 @@
 package dong.yoogo.application;
 
+import dong.yoogo.domain.jira.Issue;
 import dong.yoogo.domain.jira.IssueRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,6 +8,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -36,13 +39,22 @@ public class JiraSyncApp {
     @Scheduled(fixedDelayString = "${issue.sync.per.milliseconds}")
     public void syncIssue() {
         final List<String> pks = evaluateProjects();
-        log.info("将同步以下 {} 个项目的 issue : {}",pks.size(),pks);
+        log.info("将同步以下 {} 个项目的 issue : {}", pks.size(), pks);
+        final Instant start = Instant.now();
+        final int[] count = new int[1];
         pks.parallelStream().forEach(projectKey -> {
             String lastUpdated = queryLastUpdatedOf(projectKey);
-            log.info("项目{}将获取 {} 及之后更新的数据",projectKey,lastUpdated);
-            jira.queryIssuesOfProject(projectKey, lastUpdated, resultIN -> repository.saveAll(resultIN.getIssues()));
+            log.info("项目{}将获取 {} 及之后更新的数据", projectKey, lastUpdated);
+            jira.queryIssuesOfProject(projectKey, lastUpdated, resultIN -> {
+                log.info("保存结果 {}",resultIN);
+                final List<Issue> issues = resultIN.getIssues();
+                count[0]+=issues.size();
+                repository.deleteAllInBatch(issues);
+                repository.saveAll(issues);
+                log.info("已经保存 {}",resultIN);
+            });
         });
-        log.info("已经完成本轮数据同步");
+        log.info("已经完成本轮数据同步, 更新了 {} issue,耗时 {}" ,count[0], Duration.between(start, Instant.now()));
     }
 
     /**
@@ -53,7 +65,7 @@ public class JiraSyncApp {
      */
     private String queryLastUpdatedOf(String projectKey) {
         ZonedDateTime zonedDateTime = repository.queryLastUpdatedOf(projectKey);
-        log.info("项目 {} 最后的同步时间 {}",projectKey,zonedDateTime==null?"不存在":zonedDateTime);
+        log.info("项目 {} 最后的同步时间 {}", projectKey, zonedDateTime == null ? "不存在" : zonedDateTime);
         if (zonedDateTime == null) return updatedFrom;
         return zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }

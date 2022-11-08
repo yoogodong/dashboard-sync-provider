@@ -33,7 +33,7 @@ public class ResultIN {
                     try {
                         return issueIN.toIssue();
                     } catch (Exception e) {
-                        log.error("Issue 格式有异常,错误信息 {}, Issue 信息 {}", e.getMessage(), issueIN);
+                        log.error("Issue 格式有异常,错误信息 {}, Issue key {}", e.getMessage(), issueIN.key);
                         return Issue.builder().id(issueIN.id).issueKey(issueIN.key).build();
                     }
                 }).collect(Collectors.toList());

@@ -23,10 +23,12 @@ import java.util.List;
 public class Issue {
     @Id
     private Long id;
+    private Integer componentId;
+    private String componentName;
     private ZonedDateTime created;
     private Integer fixVersionId;
-    private String  fixVersionName;
-    @Column(unique = true,length = 20)
+    private String fixVersionName;
+    @Column(unique = true, length = 20)
     private String issueKey;
     private Integer issueTypeId;
     @Column(length = 20)
@@ -38,9 +40,9 @@ public class Issue {
     private String projectName;
     private Integer statusId;
     @Column(length = 50)
-    private String  statusName;
+    private String statusName;
     private ZonedDateTime updated;
-    @JoinColumn(name = "issue_id")
-    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "issue_id", nullable = false, updatable = false)
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<History> histories;
 }

@@ -12,7 +12,11 @@ public class IssueIN {
 
 
     public Issue toIssue() {
+        fields.postConstruct();
+
         return Issue.builder().id(id).issueKey(key)
+                .componentId(fields.getComponentId())
+                .componentName(fields.getComponentName())
                 .created(fields.created)
                 .fixVersionId(fields.getFixVersionId())
                 .fixVersionName(fields.getFixVersionName())
