@@ -4,6 +4,7 @@ import dong.yoogo.domain.jira.IssueRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -32,6 +33,7 @@ public class JiraSyncApp {
     /**
      * synchronize issues for specified project list and specified time point
      */
+    @Scheduled(fixedDelayString = "${issue.sync.per.milliseconds}")
     public void syncIssue() {
         final List<String> pks = evaluateProjects();
         log.info("将同步以下 {} 个项目的 issue : {}",pks.size(),pks);
