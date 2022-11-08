@@ -42,6 +42,7 @@ public class JiraSyncApp {
             log.info("项目{}将获取 {} 及之后更新的数据",projectKey,lastUpdated);
             jira.queryIssuesOfProject(projectKey, lastUpdated, resultIN -> repository.saveAll(resultIN.getIssues()));
         });
+        log.info("已经完成本轮数据同步");
     }
 
     /**
