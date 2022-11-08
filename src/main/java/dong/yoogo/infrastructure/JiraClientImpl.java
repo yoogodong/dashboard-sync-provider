@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import dong.yoogo.application.JiraClient;
 import dong.yoogo.application.jira.ResultIN;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -79,4 +81,18 @@ public class JiraClientImpl implements JiraClient {
         }
         return pks;
     }
+
+    @Override
+    public ZonedDateTime jiraServerTime(){
+        log.debug("查询 Jira Server 当前时间");
+        String url = "/latest/serverInfo";
+        final ServerInfo serverInfo = jiraRest.getForObject(url, ServerInfo.class);
+        return serverInfo==null?null:serverInfo.serverTime;
+    }
 }
+
+@Data
+class ServerInfo{
+    ZonedDateTime serverTime;
+}
+
