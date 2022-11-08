@@ -44,14 +44,14 @@ public class JiraSyncApp {
         final int[] count = new int[1];
         pks.parallelStream().forEach(projectKey -> {
             String lastUpdated = queryLastUpdatedOf(projectKey);
-            log.info("项目{}将获取 {} 及之后更新的数据", projectKey, lastUpdated);
+            log.info("项目{}将获取 {} 之后更新的数据", projectKey, lastUpdated);
             jira.queryIssuesOfProject(projectKey, lastUpdated, resultIN -> {
-                log.info("保存结果 {}",resultIN);
+                log.info("{} 保存结果 {}",projectKey,resultIN);
                 final List<Issue> issues = resultIN.getIssues();
                 count[0]+=issues.size();
                 repository.deleteAllInBatch(issues);
                 repository.saveAll(issues);
-                log.info("已经保存 {}",resultIN);
+                log.info("{} 已经保存 {}",projectKey,resultIN);
             });
         });
         log.info("已经完成本轮数据同步, 更新了 {} issue,耗时 {}" ,count[0], Duration.between(start, Instant.now()));
