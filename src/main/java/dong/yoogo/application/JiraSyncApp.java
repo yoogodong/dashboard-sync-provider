@@ -29,6 +29,8 @@ public class JiraSyncApp {
 
     @Value("${provider.updatedFrom}")
     private String updatedFrom;
+    @Value("${issue.sync.per.milliseconds}")
+    private long fixDelay;
 
     private final Map<String, String> proj_lastSync = new HashMap<>();
 
@@ -61,7 +63,8 @@ public class JiraSyncApp {
             proj_lastSync.put(pk,
                     jira.jiraServerTime().minusMinutes(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         });
-        log.info("已经完成本轮数据同步, 更新了 {} issue,耗时 {}", count[0], Duration.between(start, Instant.now()));
+        log.info("已经完成本轮数据同步, 更新了 {} issue,耗时 {},下次同步在 {} 分钟后",
+                count[0], Duration.between(start, Instant.now()), fixDelay / 60000);
     }
 
     /**
@@ -74,7 +77,7 @@ public class JiraSyncApp {
         ZonedDateTime zonedDateTime = repository.queryLastUpdatedOf(projectKey);
         log.info("项目 {} 最后的同步时间 {}", projectKey, zonedDateTime == null ? "不存在" : zonedDateTime);
         if (zonedDateTime == null) return updatedFrom;
-        return zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm",Locale.CHINA));
+        return zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.CHINA));
     }
 
 
