@@ -55,7 +55,7 @@ public class JiraClientImpl implements JiraClient {
             log.error("不能从 jira 获取 issue 数据");
             return;
         }
-        log.info("项目 {} 的同步进展： {}",pid, resultIN);
+        log.debug("项目 {} 的同步进展： {}",pid, resultIN);
         resultINConsumer.accept(resultIN);
         if (resultIN.hasNext()) {
             pagingQuery(pid, updatedFrom, startAt + pageSize, resultINConsumer);
@@ -96,9 +96,7 @@ public class JiraClientImpl implements JiraClient {
 
 @Data
 class ServerInfo{
-
     private ZonedDateTime serverTime;
-
     public ZonedDateTime getServerTime() {
         return serverTime.withZoneSameInstant(ZoneId.of("UTC+8"));
     }

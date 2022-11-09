@@ -53,8 +53,9 @@ public class JiraSyncApp {
             String lastUpdated = lastSync == null ? queryLastUpdatedOf(pk) : lastSync;
             log.info("项目{}将获取 {} 之后更新的数据", pk, lastUpdated);
             syncProjectFrom(count, pk, lastUpdated);
-            proj_lastSync.put(pk,
-                    jira.jiraServerTime().minusMinutes(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            final String serverTime = jira.jiraServerTime().minusMinutes(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            proj_lastSync.put(pk, serverTime);
+            log.info("项目{}下次的同步起点：{}",pk,serverTime);
         });
         log.info("已经完成本轮数据同步, 更新了 {} issue,耗时 {},下次同步在 {} 分钟后",
                 count[0], Duration.between(start, Instant.now()), fixDelay / 60000);
