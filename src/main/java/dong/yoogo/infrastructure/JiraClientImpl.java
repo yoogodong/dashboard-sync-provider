@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 public class JiraClientImpl implements JiraClient {
     private final RestTemplate jiraRest;
 
-    @Value("${provider.jira.pageSize}")
+    @Value("${jira.restapi.pageSize}")
     private int pageSize;
 
     public JiraClientImpl(RestTemplate jiraRest) {

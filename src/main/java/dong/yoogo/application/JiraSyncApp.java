@@ -24,12 +24,12 @@ public class JiraSyncApp {
     private final JiraClient jira;
     private final IssueRepository repository;
 
-    @Value("${provider.projects}")
+    @Value("${jira.projects}")
     private List<String> projConfig;
 
-    @Value("${provider.updatedFrom}")
+    @Value("${jira.issue.sync.from.default}")
     private String updatedFrom;
-    @Value("${issue.sync.per.milliseconds}")
+    @Value("${jira.issue.sync.delay.millisecond}")
     private long fixDelay;
 
     private final Map<String, String> proj_lastSync = new HashMap<>();

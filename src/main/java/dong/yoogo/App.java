@@ -18,7 +18,13 @@ public class App {
     }
 
     @Bean
-    public RestTemplate jiraRest(RestTemplateBuilder restTemplateBuilder, @Value("${provider.jira.hostAndContext}") String root) {
-        return restTemplateBuilder.rootUri(root).basicAuthentication("stwk_dongyonggao", "Jira@2021").build();
+    public RestTemplate jiraRest(RestTemplateBuilder restTemplateBuilder,
+                                 @Value("${jira.server.hostAndContext}") String root,
+                                 @Value("${jira.server.username}") String username,
+                                 @Value("${jira.server.password}") String password) {
+        return restTemplateBuilder
+                .rootUri(root)
+                .basicAuthentication(username, password)
+                .build();
     }
 }
