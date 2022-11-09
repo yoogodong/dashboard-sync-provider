@@ -87,7 +87,9 @@ public class JiraClientImpl implements JiraClient {
         log.debug("查询 Jira Server 当前时间");
         String url = "/latest/serverInfo";
         final ServerInfo serverInfo = jiraRest.getForObject(url, ServerInfo.class);
-        return serverInfo==null?null:serverInfo.serverTime;
+        if (serverInfo==null)
+            log.error("查询 jira server time 失败");
+        return serverInfo==null?ZonedDateTime.now():serverInfo.serverTime;
     }
 }
 
