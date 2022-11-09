@@ -11,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,12 +90,17 @@ public class JiraClientImpl implements JiraClient {
         final ServerInfo serverInfo = jiraRest.getForObject(url, ServerInfo.class);
         if (serverInfo==null)
             log.error("查询 jira server time 失败");
-        return serverInfo==null?ZonedDateTime.now():serverInfo.serverTime;
+        return serverInfo==null?ZonedDateTime.now():serverInfo.getServerTime();
     }
 }
 
 @Data
 class ServerInfo{
-    ZonedDateTime serverTime;
+
+    private ZonedDateTime serverTime;
+
+    public ZonedDateTime getServerTime() {
+        return serverTime.withZoneSameInstant(ZoneId.of("UTC+8"));
+    }
 }
 
