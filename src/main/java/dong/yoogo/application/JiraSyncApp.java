@@ -52,19 +52,23 @@ public class JiraSyncApp {
             final String lastSync = proj_lastSync.get(pk);
             String lastUpdated = lastSync == null ? queryLastUpdatedOf(pk) : lastSync;
             log.info("项目{}将获取 {} 之后更新的数据", pk, lastUpdated);
-            jira.queryIssuesOfProject(pk, lastUpdated, resultIN -> {
-                log.info("{} 保存结果 {}", pk, resultIN);
-                final List<Issue> issues = resultIN.getIssues();
-                count[0] += issues.size();
-                repository.deleteAllInBatch(issues);
-                repository.saveAll(issues);
-                log.info("{} 已经保存 {}", pk, resultIN);
-            });
+            syncProjectFrom(count, pk, lastUpdated);
             proj_lastSync.put(pk,
                     jira.jiraServerTime().minusMinutes(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         });
         log.info("已经完成本轮数据同步, 更新了 {} issue,耗时 {},下次同步在 {} 分钟后",
                 count[0], Duration.between(start, Instant.now()), fixDelay / 60000);
+    }
+
+    private void syncProjectFrom(int[] count, String pk, String lastUpdated) {
+        jira.queryIssuesOfProject(pk, lastUpdated, resultIN -> {
+            log.info("{} 保存结果 {}", pk, resultIN);
+            final List<Issue> issues = resultIN.getIssues();
+            count[0] += issues.size();
+            repository.deleteAllInBatch(issues);
+            repository.saveAll(issues);
+            log.info("{} 已经保存 {}", pk, resultIN);
+        });
     }
 
     /**
