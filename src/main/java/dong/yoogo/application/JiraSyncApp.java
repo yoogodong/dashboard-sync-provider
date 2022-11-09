@@ -25,7 +25,7 @@ public class JiraSyncApp {
     private final IssueRepository repository;
 
     @Value("${provider.projects}")
-    private List<String> projects;
+    private List<String> projConfig;
 
     @Value("${provider.updatedFrom}")
     private String updatedFrom;
@@ -55,7 +55,7 @@ public class JiraSyncApp {
             syncProjectFrom(count, pk, lastUpdated);
             final String serverTime = jira.jiraServerTime().minusMinutes(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
             proj_lastSync.put(pk, serverTime);
-            log.info("项目{}下次的同步起点：{}",pk,serverTime);
+            log.info("项目{}下次的同步起点：{}", pk, serverTime);
         });
         log.info("已经完成本轮数据同步, 更新了 {} issue,耗时 {},下次同步在 {} 分钟后",
                 count[0], Duration.between(start, Instant.now()), fixDelay / 60000);
@@ -90,9 +90,6 @@ public class JiraSyncApp {
      * 评估要同步的项目列表
      */
     private List<String> evaluateProjects() {
-        if (projects == null || projects.isEmpty()) {
-            projects = jira.projectKeyList();
-        }
-        return projects;
+        return projConfig.isEmpty() ? jira.projectKeyList() : projConfig;
     }
 }
