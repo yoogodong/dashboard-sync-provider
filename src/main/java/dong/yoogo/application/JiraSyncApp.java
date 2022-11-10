@@ -42,7 +42,7 @@ public class JiraSyncApp {
     /**
      * synchronize issues for specified project list and specified time point
      */
-    @Scheduled(fixedDelayString = "${issue.sync.per.milliseconds}")
+    @Scheduled(fixedDelayString = "${jira.issue.sync.delay.millisecond}")
     public void syncIssue() {
         final List<String> pks = evaluateProjects();
         log.info("将同步以下 {} 个项目的 issue : {}", pks.size(), pks);
