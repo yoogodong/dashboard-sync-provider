@@ -15,6 +15,7 @@ public class IssueIN {
         fields.postConstruct();
 
         return Issue.builder().id(id).issueKey(key)
+                .changelogSize(changelog.total)
                 .componentId(fields.getComponentId())
                 .componentName(fields.getComponentName())
                 .created(fields.created)

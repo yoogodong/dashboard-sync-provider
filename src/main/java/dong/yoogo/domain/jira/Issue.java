@@ -24,6 +24,7 @@ import java.util.List;
 public class Issue implements Persistable<Long> {
     @Id
     private Long id;
+    private int changelogSize;
     private Integer componentId;
     private String componentName;
     private ZonedDateTime created;
