@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class IssueIN {
-    long id;
-    String key;
-    FieldsIN fields;
+    Long id;
     ChangelogIN changelog;
+    FieldsIN fields;
+    String key;
 
 
     public Issue toIssue() {
