@@ -14,6 +14,7 @@ public class FieldsIN {
     List<IdKeyName>  fixVersions;
     @JsonProperty("issuetype")
     IdKeyName issueType;
+    IdKeyName parent;
     IdKeyName project;
     ZonedDateTime updated;
     IdKeyName status;
