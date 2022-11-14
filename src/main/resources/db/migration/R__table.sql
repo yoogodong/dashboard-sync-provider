@@ -2,16 +2,17 @@
 drop table if exists issue;
 create table issue
 (
-    id               bigint not null,
+    id               integer not null,
     changelog_size   integer,
     component_id     integer,
     component_name   varchar(20),
     created          datetime(6),
     fix_version_id   integer,
     fix_version_name varchar(20),
-    issue_key        varchar(20),
+    issue_key        varchar(20) unique,
     issue_type_id    integer,
     issue_type_name  varchar(20),
+    parent_id        integer,
     project_id       integer,
     project_key      varchar(20),
     project_name     varchar(50),
@@ -25,11 +26,11 @@ create table issue
 drop table if exists history;
 create table history
 (
-    id                  bigint not null,
+    id                  int not null,
     author_display_name varchar(100),
     author_key          varchar(50),
     created             datetime(6),
-    issue_id            bigint,
+    issue_id            int,
     primary key (id),
     FOREIGN KEY (issue_id)
         REFERENCES issue (id)
@@ -39,7 +40,7 @@ create table history
 drop table if exists history_items;
 create table history_items
 (
-    history_id  bigint not null,
+    history_id  int not null,
     field       varchar(30),
     field_type  varchar(20),
     from_string varchar(20),
