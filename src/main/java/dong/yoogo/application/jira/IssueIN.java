@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class IssueIN {
-    Long id;
+    Integer id;
     ChangelogIN changelog;
     FieldsIN fields;
     String key;
@@ -23,6 +23,7 @@ public class IssueIN {
                 .fixVersionName(fields.getFixVersionName())
                 .issueTypeId(fields.issueType.id)
                 .issueTypeName(fields.issueType.name)
+                .parentId(fields.parent==null?null:fields.parent.id)
                 .projectId(fields.project.id)
                 .projectKey(fields.project.key)
                 .projectName(fields.project.name)

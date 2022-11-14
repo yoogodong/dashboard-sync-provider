@@ -16,9 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class History implements Persistable<Long> {
+public class History implements Persistable<Integer> {
     @Id
-    private Long id;
+    private Integer id;
     @Column(length = 50)
     private String authorKey;
     @Column(length = 100)
@@ -28,7 +28,7 @@ public class History implements Persistable<Long> {
     private List<HistoryItem> items;
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

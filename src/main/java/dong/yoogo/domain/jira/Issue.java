@@ -21,9 +21,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Issue implements Persistable<Long> {
+public class Issue implements Persistable<Integer> {
     @Id
-    private Long id;
+    private Integer id;
     private int changelogSize;
     private Integer componentId;
     private String componentName;
@@ -35,6 +35,7 @@ public class Issue implements Persistable<Long> {
     private Integer issueTypeId;
     @Column(length = 20)
     private String issueTypeName;
+    private Integer parentId;
     private Integer projectId;
     @Column(length = 20)
     private String projectKey;
@@ -49,7 +50,7 @@ public class Issue implements Persistable<Long> {
     private List<History> histories;
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
