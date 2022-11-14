@@ -3,6 +3,7 @@ drop table if exists issue;
 create table issue
 (
     id               bigint not null,
+    changelog_size   integer,
     component_id     integer,
     component_name   varchar(20),
     created          datetime(6),
