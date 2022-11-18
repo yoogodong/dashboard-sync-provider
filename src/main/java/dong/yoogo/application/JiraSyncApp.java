@@ -1,5 +1,6 @@
 package dong.yoogo.application;
 
+import dong.yoogo.application.jira.JiraClient;
 import dong.yoogo.domain.jira.Issue;
 import dong.yoogo.domain.jira.IssueRepository;
 import lombok.extern.slf4j.Slf4j;

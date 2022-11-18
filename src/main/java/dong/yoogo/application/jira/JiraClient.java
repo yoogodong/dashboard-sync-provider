@@ -1,7 +1,5 @@
-package dong.yoogo.application;
+package dong.yoogo.application.jira;
 
-
-import dong.yoogo.application.jira.ResultIN;
 
 import java.time.ZonedDateTime;
 import java.util.List;

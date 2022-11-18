@@ -2,7 +2,7 @@ package dong.yoogo.infrastructure;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import dong.yoogo.application.JiraClient;
+import dong.yoogo.application.jira.JiraClient;
 import dong.yoogo.application.jira.ResultIN;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
