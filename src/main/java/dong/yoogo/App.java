@@ -27,4 +27,16 @@ public class App {
                 .basicAuthentication(username, password)
                 .build();
     }
+
+
+    @Bean
+    public RestTemplate sonarRest(RestTemplateBuilder restTemplateBuilder,
+                                 @Value("${sonarqube.server.hostAndContext}") String root,
+                                 @Value("${sonarqube.server.username}") String username,
+                                 @Value("${sonarqube.server.password}") String password) {
+        return restTemplateBuilder
+                .rootUri(root)
+                .basicAuthentication(username, password)
+                .build();
+    }
 }
