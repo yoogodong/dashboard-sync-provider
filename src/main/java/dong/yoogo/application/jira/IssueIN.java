@@ -14,6 +14,7 @@ public class IssueIN {
 
     public Issue toIssue(IssueRepository repository) {
         fields.postConstruct();
+        final int count = repository.historyCount(id);
 
         return Issue.builder().id(id).issueKey(key)
                 .changelogSize(changelog.total)
@@ -31,7 +32,7 @@ public class IssueIN {
                 .statusId(fields.status.id)
                 .statusName(fields.status.name)
                 .updated(fields.updated)
-                .histories(changelog.toHistoryList(repository))
+                .histories(changelog.toHistoryList(count))
                 .build();
     }
 }

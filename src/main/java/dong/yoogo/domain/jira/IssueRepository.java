@@ -10,4 +10,7 @@ import java.time.ZonedDateTime;
 public interface IssueRepository extends JpaRepository<Issue, Integer> {
     @Query("select max(i.updated) from Issue i where i.projectKey=:pk")
     ZonedDateTime queryLastUpdatedOf(String pk);
+
+    @Query(value = "select count(*) from history h where h.issue_id=:id",nativeQuery = true)
+    int historyCount(Integer id);
 }

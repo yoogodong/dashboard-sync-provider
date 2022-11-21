@@ -31,10 +31,7 @@ create table history
     author_key          varchar(50),
     created             datetime(6),
     issue_id            int,
-    primary key (id),
-    FOREIGN KEY (issue_id)
-        REFERENCES issue (id)
-        ON DELETE CASCADE
+    primary key (id)
 ) engine = InnoDB;
 
 drop table if exists history_items;
@@ -46,10 +43,7 @@ create table history_items
     from_string varchar(20),
     from_value  varchar(20),
     to_string   varchar(20),
-    to_value    varchar(20),
-    foreign key (history_id)
-        REFERENCES history (id)
-        ON DELETE CASCADE
+    to_value    varchar(20)
 ) engine = InnoDB;
 
 

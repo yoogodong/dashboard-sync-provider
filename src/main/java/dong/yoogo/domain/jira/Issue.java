@@ -46,7 +46,7 @@ public class Issue implements Persistable<Integer> {
     private String statusName;
     private ZonedDateTime updated;
     @JoinColumn(name = "issue_id", nullable = false, updatable = false)
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<History> histories;
 
     @Override

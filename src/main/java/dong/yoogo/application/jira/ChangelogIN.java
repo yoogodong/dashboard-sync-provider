@@ -2,10 +2,10 @@ package dong.yoogo.application.jira;
 
 import dong.yoogo.domain.jira.History;
 import dong.yoogo.domain.jira.HistoryItem;
-import dong.yoogo.domain.jira.IssueRepository;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,14 +16,21 @@ public class ChangelogIN {
     int total;
     List<HistoryIN> histories;
 
-    public List<History> toHistoryList(IssueRepository repository) {
-       return  histories.stream().map(HistoryIN::toHistory).collect(Collectors.toList());
+    public List<History> toHistoryList(int count) {
+        if (count == histories.size()) {
+            return Collections.emptyList();
+        } else {
+            histories.sort((a, b) -> (int) (a.created.toEpochSecond() - b.created.toEpochSecond()));
+            return histories.subList(count, histories.size()).stream()
+                    .map(HistoryIN::toHistory).collect(Collectors.toList());
+        }
     }
 }
+
 @Data
 class HistoryIN {
     Integer id;
-    AuthorIN author=new AuthorIN();//jira 中此字段有时为null
+    AuthorIN author = new AuthorIN();//jira 中此字段有时为null
     ZonedDateTime created;
     List<HistoryItemIN> items;
 
@@ -37,6 +44,7 @@ class HistoryIN {
                 .build();
     }
 }
+
 @Data
 class AuthorIN {
     String name;
@@ -65,9 +73,9 @@ class HistoryItemIN {
                 .build();
     }
 
-    private String limitLength(String value){
+    private String limitLength(String value) {
         final int limit = 20;
-        if (value==null || value.length()<= limit)
+        if (value == null || value.length() <= limit)
             return value;
         return value.substring(0, limit);
     }
