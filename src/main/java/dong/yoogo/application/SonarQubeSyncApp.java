@@ -4,6 +4,8 @@ import dong.yoogo.application.sonarqube.MeasureRepository;
 import dong.yoogo.application.sonarqube.SonarQubeClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@EnableAsync
 public class SonarQubeSyncApp {
     private final SonarQubeClient sonar;
     private final MeasureRepository repository;
@@ -25,6 +28,7 @@ public class SonarQubeSyncApp {
         this.repository = repository;
     }
 
+    @Async
     @Scheduled(fixedDelayString = "${sonarqube.sync.delay.ms}")
     public void sync() {
         final Instant start = Instant.now();

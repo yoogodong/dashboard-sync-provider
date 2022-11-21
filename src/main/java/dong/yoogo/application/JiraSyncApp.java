@@ -6,6 +6,8 @@ import dong.yoogo.domain.jira.IssueRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ import java.util.Map;
 @Service
 @Slf4j
 @PropertySource("classpath:config/dashboard-sync-provider.properties")
+@EnableAsync
 public class JiraSyncApp {
     private final JiraClient jira;
     private final IssueRepository repository;
@@ -43,6 +46,7 @@ public class JiraSyncApp {
     /**
      * synchronize issues for specified project list and specified time point
      */
+    @Async
     @Scheduled(fixedDelayString = "${jira.issue.sync.delay.millisecond}")
     public void syncIssue() {
         final List<String> pks = evaluateProjects();
