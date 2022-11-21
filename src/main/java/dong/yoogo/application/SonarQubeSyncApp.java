@@ -44,6 +44,7 @@ public class SonarQubeSyncApp {
 
     public ZonedDateTime from(String project, String metric) {
         ZonedDateTime from = repository.lastSynced(project, metric);
+        log.debug("项目 {} 最后同步时间 {}",project,from);
         if (from == null) {
             return ZonedDateTime.now().minusYears(2);
         } else {
