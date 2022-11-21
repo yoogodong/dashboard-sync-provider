@@ -65,7 +65,7 @@ public class JiraSyncApp {
     private void syncProjectFrom(int[] count, String pk, String lastUpdated) {
         jira.queryIssuesOfProject(pk, lastUpdated, resultIN -> {
             log.info("{} 保存结果 {}", pk, resultIN);
-            final List<Issue> issues = resultIN.getIssues();
+            final List<Issue> issues = resultIN.getIssues(repository);
             count[0] += issues.size();
             repository.deleteAllInBatch(issues);
             repository.saveAll(issues);

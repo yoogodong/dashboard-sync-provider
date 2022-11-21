@@ -1,6 +1,7 @@
 package dong.yoogo.application.jira;
 
 import dong.yoogo.domain.jira.Issue;
+import dong.yoogo.domain.jira.IssueRepository;
 import lombok.Data;
 
 @Data
@@ -11,7 +12,7 @@ public class IssueIN {
     String key;
 
 
-    public Issue toIssue() {
+    public Issue toIssue(IssueRepository repository) {
         fields.postConstruct();
 
         return Issue.builder().id(id).issueKey(key)
@@ -30,7 +31,7 @@ public class IssueIN {
                 .statusId(fields.status.id)
                 .statusName(fields.status.name)
                 .updated(fields.updated)
-                .histories(changelog.toHistoryList())
+                .histories(changelog.toHistoryList(repository))
                 .build();
     }
 }

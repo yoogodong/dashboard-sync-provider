@@ -2,6 +2,7 @@ package dong.yoogo.application.jira;
 
 import dong.yoogo.domain.jira.History;
 import dong.yoogo.domain.jira.HistoryItem;
+import dong.yoogo.domain.jira.IssueRepository;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
@@ -15,7 +16,7 @@ public class ChangelogIN {
     int total;
     List<HistoryIN> histories;
 
-    public List<History> toHistoryList() {
+    public List<History> toHistoryList(IssueRepository repository) {
        return  histories.stream().map(HistoryIN::toHistory).collect(Collectors.toList());
     }
 }

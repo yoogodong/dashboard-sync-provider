@@ -1,6 +1,7 @@
 package dong.yoogo.application.jira;
 
 import dong.yoogo.domain.jira.Issue;
+import dong.yoogo.domain.jira.IssueRepository;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +28,11 @@ public class ResultIN {
         return startAt + maxResults < total;
     }
 
-    public List<Issue> getIssues() {
+    public List<Issue> getIssues(IssueRepository repository) {
         return issues.stream()
                 .map(issueIN -> {
                     try {
-                        return issueIN.toIssue();
+                        return issueIN.toIssue(repository);
                     } catch (Exception e) {
                         log.error("Issue 格式有异常,错误信息 {}, Issue key {}",e, issueIN.key);
                         return Issue.builder().id(issueIN.id).issueKey(issueIN.key).build();
