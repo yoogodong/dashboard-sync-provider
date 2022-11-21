@@ -50,10 +50,11 @@ public class SonarQubeClientImpl implements SonarQubeClient {
     }
 
     private void restGetMetric(String project, String metric, ZonedDateTime from, int pageIndex,Consumer<List<Measure>> consumer) {
-        final String fromStr =from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss'%2B'0800"));
+        final String fromStr =from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'%2B'0800"));
         final String url="/api/measures/search_history?component={project}&metrics={metrics}&from="+fromStr+"&p={p}";
         try {
             final MeasureResultIN result = sonarRest.getForObject(url, MeasureResultIN.class, project, metric,  pageIndex);
+            log.debug("sonar query result: {}",result);
             consumer.accept(result.toMeasures(project));
             if (result.hasNext()){
                 pageIndex++;
