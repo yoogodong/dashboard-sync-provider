@@ -26,7 +26,7 @@ create table issue
 drop table if exists history;
 create table history
 (
-    id                  int not null,
+    id                  INTEGER not null,
     author_display_name varchar(100),
     author_key          varchar(50),
     created             datetime(6),
@@ -34,10 +34,11 @@ create table history
     primary key (id)
 ) engine = InnoDB;
 
-drop table if exists history_items;
-create table history_items
+drop table if exists history_item;
+create table history_item
 (
-    history_id  int not null,
+    id          BIGINT not null primary key auto_increment,
+    history_id  INTEGER not null,
     field       varchar(30),
     field_type  varchar(20),
     from_string varchar(20),
