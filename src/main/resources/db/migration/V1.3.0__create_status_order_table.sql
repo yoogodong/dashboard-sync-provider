@@ -1,5 +1,5 @@
--- issue 的价值流顺序
-create table value_flow
+-- issue 的状态顺序
+create table status_order
 (
     issue_type_id integer,
     status_id     integer,
