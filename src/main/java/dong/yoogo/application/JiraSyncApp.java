@@ -5,7 +5,6 @@ import dong.yoogo.domain.jira.Issue;
 import dong.yoogo.domain.jira.IssueRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,7 +21,6 @@ import java.util.Map;
 
 @Service
 @Slf4j
-@PropertySource("classpath:config/dashboard-sync-provider.properties")
 @EnableAsync
 public class JiraSyncApp {
     private final JiraClient jira;

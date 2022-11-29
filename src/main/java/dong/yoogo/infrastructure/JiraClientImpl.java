@@ -7,7 +7,6 @@ import dong.yoogo.application.jira.ResultIN;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,7 +22,6 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Service
-@PropertySource("classpath:config/dashboard-sync-provider.properties")
 public class JiraClientImpl implements JiraClient {
     private final RestTemplate jiraRest;
 
