@@ -45,9 +45,11 @@ public class JiraClientImpl implements JiraClient {
     }
 
     private void pagingQuery(String pid, String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
-        String url = "/latest/search?jql={jql}&fields={fields}&expand=changelog,names&startAt={startAt}&maxResults={maxResults}";
-        String jql = " updated > '" + updatedFrom + "'  AND  project = '" + pid +"' order by updated asc";
-        String fields = "id,components,created,fixVersions,issuetype,parent,project,status,updated";
+        final String url = "/latest/search?jql={jql}&fields={fields}&expand=changelog,names&startAt={startAt}&maxResults={maxResults}";
+        final String jql = " updated > '" + updatedFrom + "'  AND  project = '" + pid +"' order by updated asc";
+        final String coreFields = "id,components,created,fixVersions,issuetype,parent,project,status,updated,labels";
+        final String customDateFields = "customfield_14000,customfield_10101,customfield_12401,customfield_10418,customfield_14001,customfield_10407,customfield_14002,customfield_10103,customfield_10217";
+        String fields = coreFields+customDateFields;
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql, fields, startAt, pageSize);
         if (resultIN == null) {
             log.error("不能从 jira 获取 issue 数据");
