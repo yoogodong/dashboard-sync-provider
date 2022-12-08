@@ -26,44 +26,44 @@ public class SonarQubeClientImpl implements SonarQubeClient {
 
     @Override
     public List<String> projectsNeedToSync() {
-        if (projects.isEmpty()){
+        if (projects.isEmpty()) {
             log.error("没有指定要同步的 SonarQube 项目列表");
             throw new RuntimeException("project list is empty");
         }
-        log.info("将同步 SonarQube 以下项目 {}",projects);
+        log.info("将同步 SonarQube 以下项目 {}", projects);
         return projects;
     }
 
     @Override
     public List<String> metricsNeedToSync() {
-        if (metrics.isEmpty()){
+        if (metrics.isEmpty()) {
             log.error("没有指定要同步的 SonarQube 指标列表");
             throw new RuntimeException("metric list is empty");
         }
-        log.info("将同步 SonarQube 以下指标 {}",metrics);
+        log.info("将同步 SonarQube 以下指标 {}", metrics);
         return metrics;
     }
 
     @Override
     public void restGetMetric(String project, String metric, ZonedDateTime from, Consumer<List<Measure>> consumer) {
-        restGetMetric(project,metric,from, 1,consumer);
+        restGetMetric(project, metric, from, 1, consumer);
     }
 
-    private void restGetMetric(String project, String metric, ZonedDateTime from, int pageIndex,Consumer<List<Measure>> consumer) {
-        final String fromStr =from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'%2B'0800"));
-        final String url="/api/measures/search_history?component={project}&metrics={metrics}&from="+fromStr+"&p={p}";
+    private void restGetMetric(String project, String metric, ZonedDateTime from, int pageIndex, Consumer<List<Measure>> consumer) {
+        final String fromStr = from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'%2B'0800"));
+        final String url = "/api/measures/search_history?component={project}&branch={branch}&metrics={metrics}&from=" + fromStr + "&p={p}";
         try {
-            final MeasureResultIN result = sonarRest.getForObject(url, MeasureResultIN.class, project, metric,  pageIndex);
-            log.debug("sonar query result: {}",result);
+            final MeasureResultIN result = sonarRest.getForObject(url, MeasureResultIN.class, project, "life-ern-uat", metric, pageIndex);
+            log.debug("sonar query result: {}", result);
             consumer.accept(result.toMeasures(project));
-            if (result.hasNext()){
+            if (result.hasNext()) {
                 pageIndex++;
-                restGetMetric(project,metric,from,pageIndex,consumer);
+                restGetMetric(project, metric, from, pageIndex, consumer);
             }
         } catch (Exception e) {
-            if (e.getMessage().matches(".*Component\\s+key.*not\\s+found.*")){
-                log.error("找不到 sonarqube 项目 {}",project);
-            }else{
+            if (e.getMessage().matches(".*Component\\s+key.*not\\s+found.*")) {
+                log.error("找不到 sonarqube 项目 {}", project);
+            } else {
                 throw e;
             }
         }
