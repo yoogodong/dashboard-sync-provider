@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -46,8 +47,19 @@ public class Issue implements Persistable<Integer> {
     private String statusName;
     private ZonedDateTime updated;
     @JoinColumn(name = "issue_id", nullable = false, updatable = false)
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<History> histories;
+
+    private String labels;
+    private LocalDate devStart0;
+    private LocalDate devEnd0;
+    private LocalDate sitStart0;
+    private LocalDate sitEnd0;
+    private LocalDate innerTestStart0;
+    private LocalDate innerTestEnd0;
+    private LocalDate uatStart0;
+    private LocalDate uatEnd0;
+    private LocalDate pub0;
 
     @Override
     public Integer getId() {
