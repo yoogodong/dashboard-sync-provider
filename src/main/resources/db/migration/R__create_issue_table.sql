@@ -21,14 +21,23 @@ create table issue
     updated           datetime(6),
     labels            varchar(100),
     dev_start0        date,
+    dev_start1        date,
     dev_end0          date,
+    dev_end1          date,
     sit_start0        date,
+    sit_start1        date,
     sit_end0          date,
+    sit_end1          date,
     inner_test_start0 date,
+    inner_test_start1 date,
     inner_test_end0   date,
+    inner_test_end1   date,
     uat_start0        date,
+    uat_start1        date,
     uat_end0          date,
+    uat_end1          date,
     pub0              date,
+    pub1              date,
     primary key (id)
 ) engine = InnoDB;
 

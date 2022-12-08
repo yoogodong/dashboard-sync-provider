@@ -22,22 +22,40 @@ public class FieldsIN {
     List<String> labels;
     @JsonProperty("customfield_14000")
     LocalDate devStart0;
+    @JsonProperty("customfield_10700")
+    LocalDate devStart1;
     @JsonProperty("customfield_10101")
     LocalDate devEnd0;
+    @JsonProperty("customfield_10104")
+    LocalDate devEnd1;
     @JsonProperty("customfield_12401")
     LocalDate sitStart0;
+    @JsonProperty("customfield_12400")
+    LocalDate sitStart1;
     @JsonProperty("customfield_10418")
     LocalDate sitEnd0;
+    @JsonProperty("customfield_12001")
+    LocalDate sitEnd1;
     @JsonProperty("customfield_14001")
     LocalDate innerTestStart0;
+    @JsonProperty("customfield_10502")
+    LocalDate innerTestStart1;
     @JsonProperty("customfield_10407")
     LocalDate innerTestEnd0;
+    @JsonProperty("customfield_10106")
+    LocalDate innerTestEnd1;
     @JsonProperty("customfield_14002")
     LocalDate uatStart0;
+    @JsonProperty("customfield_14713")
+    LocalDate uatStart1;
     @JsonProperty("customfield_10103")
     LocalDate uatEnd0;
+    @JsonProperty("customfield_10105")
+    LocalDate uatEnd1;
     @JsonProperty("customfield_10217")
     LocalDate pub0;
+    @JsonProperty("customfield_10219")
+    LocalDate pub1;
 
 
     public Issue.IssueBuilder toIssue(Issue.IssueBuilder issueBuilder) {
@@ -61,11 +79,11 @@ public class FieldsIN {
     }
 
     private Issue.IssueBuilder customizedFields(Issue.IssueBuilder builder) {
-        return builder.devStart0(devStart0).devEnd0(devEnd0)
-                .sitStart0(sitStart0).sitEnd0(sitEnd0)
-                .innerTestStart0(innerTestStart0).innerTestEnd0(innerTestEnd0)
-                .uatStart0(uatStart0).uatEnd0(uatEnd0)
-                .pub0(pub0);
+        return builder.devStart0(devStart0).devStart1(devStart1).devEnd0(devEnd0).devEnd1(devEnd1)
+                .sitStart0(sitStart0).sitStart1(sitStart1).sitEnd0(sitEnd0).sitEnd1(sitEnd1)
+                .innerTestStart0(innerTestStart0).innerTestStart1(innerTestStart1).innerTestEnd0(innerTestEnd0).innerTestEnd1(innerTestEnd1)
+                .uatStart0(uatStart0).uatStart1(uatStart1).uatEnd0(uatEnd0).uatEnd1(uatEnd1)
+                .pub0(pub0).pub1(pub1);
     }
 
 }
