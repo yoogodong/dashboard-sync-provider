@@ -35,7 +35,7 @@ public class FieldsIN {
     @JsonProperty("customfield_10418")
     LocalDate sitEnd0;
     @JsonProperty("customfield_12001")
-    LocalDate sitEnd1;
+    ZonedDateTime sitEnd1;
     @JsonProperty("customfield_14001")
     LocalDate innerTestStart0;
     @JsonProperty("customfield_10502")
@@ -80,7 +80,7 @@ public class FieldsIN {
 
     private Issue.IssueBuilder customizedFields(Issue.IssueBuilder builder) {
         return builder.devStart0(devStart0).devStart1(devStart1).devEnd0(devEnd0).devEnd1(devEnd1)
-                .sitStart0(sitStart0).sitStart1(sitStart1).sitEnd0(sitEnd0).sitEnd1(sitEnd1)
+                .sitStart0(sitStart0).sitStart1(sitStart1).sitEnd0(sitEnd0).sitEnd1(sitEnd1==null?null:sitEnd1.toLocalDate())
                 .innerTestStart0(innerTestStart0).innerTestStart1(innerTestStart1).innerTestEnd0(innerTestEnd0).innerTestEnd1(innerTestEnd1)
                 .uatStart0(uatStart0).uatStart1(uatStart1).uatEnd0(uatEnd0).uatEnd1(uatEnd1)
                 .pub0(pub0).pub1(pub1);
