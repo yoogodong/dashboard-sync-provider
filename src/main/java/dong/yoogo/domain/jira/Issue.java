@@ -53,22 +53,22 @@ public class Issue implements Persistable<Integer> {
 
     private String labels;
     private LocalDate devStart0;
-    private LocalDate devStart1;
     private LocalDate devEnd0;
-    private LocalDate devEnd1;
     private LocalDate sitStart0;
-    private LocalDate sitStart1;
     private LocalDate sitEnd0;
-    private LocalDate sitEnd1;
     private LocalDate innerTestStart0;
-    private LocalDate innerTestStart1;
     private LocalDate innerTestEnd0;
-    private LocalDate innerTestEnd1;
     private LocalDate uatStart0;
-    private LocalDate uatStart1;
     private LocalDate uatEnd0;
-    private LocalDate uatEnd1;
     private LocalDate pub0;
+    private LocalDate devStart1;
+    private LocalDate devEnd1;
+    private LocalDate sitStart1;
+    private LocalDate sitEnd1;
+    private LocalDate innerTestStart1;
+    private LocalDate innerTestEnd1;
+    private LocalDate uatStart1;
+    private LocalDate uatEnd1;
     private LocalDate pub1;
 
     @Override
