@@ -22,6 +22,8 @@ create table issue
     updated           datetime(6),
     labels            varchar(100),
 -- 下面是jira 中自定义字段
+    req_start0        date,
+    req_end0          date,
     dev_start0        date,
     dev_end0          date,
     sit_start0        date,
@@ -31,6 +33,8 @@ create table issue
     uat_start0        date,
     uat_end0          date,
     pub0              date,
+    req_start1        date,
+    req_end1          date,
     dev_start1        date,
     dev_end1          date,
     sit_start1        date,

@@ -52,6 +52,8 @@ public class Issue implements Persistable<Integer> {
     private List<History> histories;
 
     private String labels;
+    private LocalDate reqStart0;
+    private LocalDate reqEnd0;
     private LocalDate devStart0;
     private LocalDate devEnd0;
     private LocalDate sitStart0;
@@ -61,6 +63,8 @@ public class Issue implements Persistable<Integer> {
     private LocalDate uatStart0;
     private LocalDate uatEnd0;
     private LocalDate pub0;
+    private LocalDate reqStart1;
+    private LocalDate reqEnd1;
     private LocalDate devStart1;
     private LocalDate devEnd1;
     private LocalDate sitStart1;

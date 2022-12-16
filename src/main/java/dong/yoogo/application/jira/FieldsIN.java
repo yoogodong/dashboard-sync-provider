@@ -22,6 +22,10 @@ public class FieldsIN {
     String summary;
     List<String> labels;
 
+    @JsonProperty("customfield_15100")
+    LocalDate reqStart0;
+    @JsonProperty("customfield_12402")
+    LocalDate reqEnd0;
     @JsonProperty("customfield_14000")
     LocalDate devStart0;
     @JsonProperty("customfield_10101")
@@ -41,6 +45,10 @@ public class FieldsIN {
     @JsonProperty("customfield_10217")
     LocalDate pub0;
 
+    @JsonProperty("customfield_15001")
+    LocalDate reqStart1;
+    @JsonProperty("customfield_15003")
+    LocalDate reqEnd1;
     @JsonProperty("customfield_10700")
     LocalDate devStart1;
     @JsonProperty("customfield_10104")
@@ -83,7 +91,8 @@ public class FieldsIN {
     }
 
     private Issue.IssueBuilder customizedFields(Issue.IssueBuilder builder) {
-        return builder.devStart0(devStart0).devStart1(devStart1).devEnd0(devEnd0).devEnd1(devEnd1)
+        return builder.reqStart0(reqStart0).reqStart1(reqStart1).reqEnd0(reqEnd0).reqEnd1(reqEnd1)
+                .devStart0(devStart0).devStart1(devStart1).devEnd0(devEnd0).devEnd1(devEnd1)
                 .sitStart0(sitStart0).sitStart1(sitStart1).sitEnd0(sitEnd0).sitEnd1(sitEnd1==null?null:sitEnd1.toLocalDate())
                 .innerTestStart0(innerTestStart0).innerTestStart1(innerTestStart1).innerTestEnd0(innerTestEnd0).innerTestEnd1(innerTestEnd1)
                 .uatStart0(uatStart0).uatStart1(uatStart1).uatEnd0(uatEnd0).uatEnd1(uatEnd1)
