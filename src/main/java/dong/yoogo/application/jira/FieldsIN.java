@@ -19,6 +19,7 @@ public class FieldsIN {
     IdKeyName project;
     ZonedDateTime updated;
     IdKeyName status;
+    String summary;
     List<String> labels;
     @JsonProperty("customfield_14000")
     LocalDate devStart0;
@@ -73,6 +74,7 @@ public class FieldsIN {
                 .projectName(project.name)
                 .statusId(status.id)
                 .statusName(status.name)
+                .summary(head(summary, 100))
                 .updated(updated)
                 .labels(labels==null||labels.size()==0?null:labels.stream().reduce((a, b) -> a.concat(",").concat(b)).orElse("错误"));
         return customizedFields(builder);
@@ -84,6 +86,11 @@ public class FieldsIN {
                 .innerTestStart0(innerTestStart0).innerTestStart1(innerTestStart1).innerTestEnd0(innerTestEnd0).innerTestEnd1(innerTestEnd1)
                 .uatStart0(uatStart0).uatStart1(uatStart1).uatEnd0(uatEnd0).uatEnd1(uatEnd1)
                 .pub0(pub0).pub1(pub1);
+    }
+
+    private String head(String str, int max) {
+        if (str == null) return null;
+        return str.length() > max ? str.substring(0, max) : str;
     }
 
 }

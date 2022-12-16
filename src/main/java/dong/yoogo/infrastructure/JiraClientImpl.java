@@ -47,7 +47,7 @@ public class JiraClientImpl implements JiraClient {
     private void pagingQuery(String pid, String updatedFrom, int startAt, Consumer<ResultIN> resultINConsumer) {
         final String url = "/latest/search?jql={jql}&fields={fields}&expand=changelog,names&startAt={startAt}&maxResults={maxResults}";
         final String jql = " updated > '" + updatedFrom + "'  AND  project = '" + pid +"' order by updated asc";
-        final String coreFields = "id,components,created,fixVersions,issuetype,parent,project,status,updated,labels";
+        final String coreFields = "id,components,created,fixVersions,issuetype,parent,project,status,summary,updated,labels";
         final String customDateFieldsPlan = ",customfield_14000,customfield_10101,customfield_12401,customfield_10418,customfield_14001,customfield_10407,customfield_14002,customfield_10103,customfield_10217";
         final String customDateFieldsReal = ",customfield_10700,customfield_10104,customfield_12400,customfield_12001,customfield_10502,customfield_10106,customfield_14713,customfield_10105,customfield_10219";
         String fields = coreFields+customDateFieldsPlan+customDateFieldsReal;

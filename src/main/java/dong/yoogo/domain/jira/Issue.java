@@ -45,6 +45,7 @@ public class Issue implements Persistable<Integer> {
     private Integer statusId;
     @Column(length = 50)
     private String statusName;
+    private String summary;
     private ZonedDateTime updated;
     @JoinColumn(name = "issue_id", nullable = false, updatable = false)
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

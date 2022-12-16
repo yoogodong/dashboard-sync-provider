@@ -18,8 +18,10 @@ create table issue
     project_name      varchar(50),
     status_id         integer,
     status_name       varchar(50),
+    summary           varchar(100),
     updated           datetime(6),
     labels            varchar(100),
+-- 下面是jira 中自定义字段
     dev_start0        date,
     dev_start1        date,
     dev_end0          date,
