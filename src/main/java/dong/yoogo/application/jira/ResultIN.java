@@ -34,7 +34,7 @@ public class ResultIN {
                     try {
                         return issueIN.toIssue(repository);
                     } catch (Exception e) {
-                        log.error("Issue 格式有异常,错误信息 {}, Issue key {}",e, issueIN.key);
+                        log.error("Issue 格式有异常,错误信息 {}, Issue key {}", e, issueIN.key);
                         return Issue.builder().id(issueIN.id).issueKey(issueIN.key).build();
                     }
                 }).collect(Collectors.toList());

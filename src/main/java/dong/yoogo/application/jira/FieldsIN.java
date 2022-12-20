@@ -71,11 +71,11 @@ public class FieldsIN {
 
     public Issue.IssueBuilder toIssue(Issue.IssueBuilder issueBuilder) {
         final Issue.IssueBuilder builder = issueBuilder
-                .componentId(components.isEmpty()?null:components.get(0).id)
-                .componentName(components.isEmpty()?null:components.get(0).name)
+                .componentId(components.isEmpty() ? null : components.get(0).id)
+                .componentName(components.isEmpty() ? null : components.get(0).name)
                 .created(created)
-                .fixVersionId(fixVersions.isEmpty()?null:fixVersions.get(0).id)
-                .fixVersionName(fixVersions.isEmpty()?null:fixVersions.get(0).name)
+                .fixVersionId(fixVersions.isEmpty() ? null : fixVersions.get(0).id)
+                .fixVersionName(fixVersions.isEmpty() ? null : fixVersions.get(0).name)
                 .issueTypeId(issueType.id)
                 .issueTypeName(issueType.name)
                 .parentId(parent == null ? null : parent.id)
@@ -86,14 +86,14 @@ public class FieldsIN {
                 .statusName(status.name)
                 .summary(head(summary, 100))
                 .updated(updated)
-                .labels(labels==null||labels.size()==0?null:labels.stream().reduce((a, b) -> a.concat(",").concat(b)).orElse("错误"));
+                .labels(labels == null || labels.size() == 0 ? null : labels.stream().reduce((a, b) -> a.concat(",").concat(b)).orElse("错误"));
         return customizedFields(builder);
     }
 
     private Issue.IssueBuilder customizedFields(Issue.IssueBuilder builder) {
         return builder.reqStart0(reqStart0).reqStart1(reqStart1).reqEnd0(reqEnd0).reqEnd1(reqEnd1)
                 .devStart0(devStart0).devStart1(devStart1).devEnd0(devEnd0).devEnd1(devEnd1)
-                .sitStart0(sitStart0).sitStart1(sitStart1).sitEnd0(sitEnd0).sitEnd1(sitEnd1==null?null:sitEnd1.toLocalDate())
+                .sitStart0(sitStart0).sitStart1(sitStart1).sitEnd0(sitEnd0).sitEnd1(sitEnd1 == null ? null : sitEnd1.toLocalDate())
                 .innerTestStart0(innerTestStart0).innerTestStart1(innerTestStart1).innerTestEnd0(innerTestEnd0).innerTestEnd1(innerTestEnd1)
                 .uatStart0(uatStart0).uatStart1(uatStart1).uatEnd0(uatEnd0).uatEnd1(uatEnd1)
                 .pub0(pub0).pub1(pub1);

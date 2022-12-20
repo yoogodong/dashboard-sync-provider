@@ -16,10 +16,11 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Measure {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String project;
-    @Column(name="updated")
+    @Column(name = "updated")
     private ZonedDateTime date;
     private String metric;
     private String value;

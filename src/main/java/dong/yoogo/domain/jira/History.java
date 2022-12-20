@@ -28,8 +28,8 @@ public class History implements Persistable<Integer> {
     private String authorDisplayName;
     private ZonedDateTime created;
     @OneToMany
-    @JoinColumn(name="history_id",nullable = false, updatable = false)
-    @Cascade({CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinColumn(name = "history_id", nullable = false, updatable = false)
+    @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
     private List<HistoryItem> items;
 
     @Override

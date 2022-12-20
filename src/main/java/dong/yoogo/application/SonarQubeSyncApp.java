@@ -35,12 +35,12 @@ public class SonarQubeSyncApp {
             metrics.stream().parallel().forEach(m -> syncAndSave(pro, m, from(pro, m)));
         }
         final Duration duration = Duration.between(start, Instant.now());
-        log.info("已完成所有 SonarQube 项目同步,耗时{}, 下次同步将在 {} 分钟之后", duration,delay/60000);
+        log.info("已完成所有 SonarQube 项目同步,耗时{}, 下次同步将在 {} 分钟之后", duration, delay / 60000);
     }
 
     public ZonedDateTime from(String project, String metric) {
         ZonedDateTime from = repository.lastSynced(project, metric);
-        log.debug("项目 {} 最后同步时间 {}",project,from);
+        log.debug("项目 {} 最后同步时间 {}", project, from);
         if (from == null) {
             return ZonedDateTime.now().minusYears(2);
         } else {
@@ -49,7 +49,7 @@ public class SonarQubeSyncApp {
     }
 
     private void syncAndSave(String project, String metric, ZonedDateTime from) {
-        log.debug("sync sonar project {} for metric {} from {}", project,metric,from);
+        log.debug("sync sonar project {} for metric {} from {}", project, metric, from);
         sonar.restGetMetric(project, metric, from, repository::saveAll);
     }
 }

@@ -34,9 +34,9 @@ public class App {
 
     @Bean
     public RestTemplate sonarRest(RestTemplateBuilder restTemplateBuilder,
-                                 @Value("${sonarqube.server.hostAndContext}") String root,
-                                 @Value("${sonarqube.server.username}") String username,
-                                 @Value("${sonarqube.server.password}") String password) {
+                                  @Value("${sonarqube.server.hostAndContext}") String root,
+                                  @Value("${sonarqube.server.username}") String username,
+                                  @Value("${sonarqube.server.password}") String password) {
         DefaultUriBuilderFactory builderFactory = new DefaultUriBuilderFactory();
         builderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
         return restTemplateBuilder

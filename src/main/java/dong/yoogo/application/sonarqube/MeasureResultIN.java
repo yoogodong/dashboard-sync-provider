@@ -19,7 +19,7 @@ public class MeasureResultIN {
     }
 
     public List<Measure> toMeasures(String project) {
-       return measures.stream().flatMap(measureIN -> measureIN.toMeasures(project)).collect(Collectors.toList());
+        return measures.stream().flatMap(measureIN -> measureIN.toMeasures(project)).collect(Collectors.toList());
     }
 }
 
@@ -37,7 +37,7 @@ class MeasureIN {
 
 
     public Stream<Measure> toMeasures(String project) {
-        return history.stream().map(h->Measure.builder()
+        return history.stream().map(h -> Measure.builder()
                 .metric(metric).date(h.date).value(h.value).project(project).build());
     }
 }

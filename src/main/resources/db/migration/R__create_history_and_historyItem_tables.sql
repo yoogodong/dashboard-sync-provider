@@ -13,7 +13,7 @@ create table history
 drop table if exists history_item;
 create table history_item
 (
-    id          BIGINT not null primary key auto_increment,
+    id          BIGINT  not null primary key auto_increment,
     history_id  INTEGER not null,
     field       varchar(30),
     field_type  varchar(20),
