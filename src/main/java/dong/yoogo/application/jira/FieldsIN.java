@@ -7,6 +7,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class FieldsIN {
@@ -68,6 +69,8 @@ public class FieldsIN {
     @JsonProperty("customfield_10219")
     LocalDate pub1;
 
+    @JsonProperty("customfield_10123")
+    Map<String,String> bugType;
 
     public Issue.IssueBuilder toIssue(Issue.IssueBuilder issueBuilder) {
         final Issue.IssueBuilder builder = issueBuilder
@@ -87,10 +90,15 @@ public class FieldsIN {
                 .summary(head(summary, 100))
                 .updated(updated)
                 .labels(labels == null || labels.size() == 0 ? null : labels.stream().reduce((a, b) -> a.concat(",").concat(b)).orElse("错误"));
-        return customizedFields(builder);
+               customizedFields(builder);
+        return customizedDateFields(builder);
     }
 
-    private Issue.IssueBuilder customizedFields(Issue.IssueBuilder builder) {
+    private void customizedFields(Issue.IssueBuilder builder) {
+        builder.bugTypeValue(bugType==null?null:bugType.get("value"));
+    }
+
+    private Issue.IssueBuilder customizedDateFields(Issue.IssueBuilder builder) {
         return builder.reqStart0(reqStart0).reqStart1(reqStart1).reqEnd0(reqEnd0).reqEnd1(reqEnd1)
                 .devStart0(devStart0).devStart1(devStart1).devEnd0(devEnd0).devEnd1(devEnd1)
                 .sitStart0(sitStart0).sitStart1(sitStart1).sitEnd0(sitEnd0).sitEnd1(sitEnd1 == null ? null : sitEnd1.toLocalDate())

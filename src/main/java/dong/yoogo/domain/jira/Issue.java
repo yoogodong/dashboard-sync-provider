@@ -75,6 +75,8 @@ public class Issue implements Persistable<Integer> {
     private LocalDate uatEnd1;
     private LocalDate pub1;
 
+    private String bugTypeValue;
+
     @Override
     public Integer getId() {
         return id;

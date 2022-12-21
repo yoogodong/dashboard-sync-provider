@@ -50,7 +50,8 @@ public class JiraClientImpl implements JiraClient {
         final String coreFields = "id,components,created,fixVersions,issuetype,parent,project,status,summary,updated,labels";
         final String customDateFieldsPlan = ",customfield_15100,customfield_12402,customfield_14000,customfield_10101,customfield_12401,customfield_10418,customfield_14001,customfield_10407,customfield_14002,customfield_10103,customfield_10217";
         final String customDateFieldsReal = ",customfield_15001,customfield_15003,customfield_10700,customfield_10104,customfield_12400,customfield_12001,customfield_10502,customfield_10106,customfield_14713,customfield_10105,customfield_10219";
-        String fields = coreFields + customDateFieldsPlan + customDateFieldsReal;
+        final String bugType = ",customfield_10123";
+        String fields = coreFields + customDateFieldsPlan + customDateFieldsReal + bugType;
         final ResultIN resultIN = jiraRest.getForObject(url, ResultIN.class, jql, fields, startAt, pageSize);
         if (resultIN == null) {
             log.error("不能从 jira 获取 issue 数据");

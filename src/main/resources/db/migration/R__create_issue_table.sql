@@ -21,7 +21,9 @@ create table issue
     summary           varchar(100),
     updated           datetime(6),
     labels            varchar(100),
--- 下面是jira 中自定义字段
+-- 自定义字段
+    bug_type_value    varchar(200),
+-- 下面是jira 中时间相关的自定义字段
     req_start0        date,
     req_end0          date,
     dev_start0        date,
