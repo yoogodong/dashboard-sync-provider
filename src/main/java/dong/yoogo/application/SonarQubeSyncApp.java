@@ -41,6 +41,7 @@ public class SonarQubeSyncApp {
     public void sync() {
         final Instant start = Instant.now();
         final List<String> projects = sonar.projectsNeedToSync();
+        deleteUnwantedProjectNotIn(projects);
         final List<String> metrics = sonar.metricsNeedToSync();
         for (String pro : projects) {
             log.info("start sync project {}", pro);
@@ -50,7 +51,7 @@ public class SonarQubeSyncApp {
         log.info("已完成所有 SonarQube 项目同步,耗时{}, 下次同步将在 {} 分钟之后", duration, delay / 60000);
     }
 
-    public ZonedDateTime from(String project, String metric) {
+    private ZonedDateTime from(String project, String metric) {
         ZonedDateTime from = repository.lastSynced(project, metric);
         log.debug("项目 {} 最后同步时间 {}", project, from);
         if (from == null) {
@@ -63,6 +64,15 @@ public class SonarQubeSyncApp {
     private void syncAndSave(String project, String metric, ZonedDateTime from) {
         log.debug("sync sonar project {} for metric {} from {}", project, metric, from);
         sonar.restGetMetric(project, metric, from, repository::saveAll);
+    }
+
+    private void deleteUnwantedProjectNotIn(List<String> projects) {
+        List<String> projectsInDb = repository.findProjectList();
+        projectsInDb.forEach(inDb->{
+            if (!projects.contains(inDb)){
+                repository.deleteByProject(inDb);
+            }
+        });
     }
 
     /**
