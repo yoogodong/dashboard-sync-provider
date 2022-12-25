@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -78,7 +79,7 @@ public class SonarQubeSyncApp {
     /**
      * 处理 Measure 成为 FormattedMeasure， 按天分布度量值
      */
-    @Scheduled(cron = "0 0 0,6,12,18 * * ?")
+    @Scheduled(timeUnit = TimeUnit.MINUTES,fixedDelay = 1)
     public void formatMeasure() {
         log.info("将 measure 格式化成 formatted measure,以使度量值值按连续的日期分布");
         final Instant start = Instant.now();
