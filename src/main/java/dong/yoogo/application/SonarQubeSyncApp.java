@@ -96,6 +96,11 @@ public class SonarQubeSyncApp {
                     }
                 }
             });
+            for (FormattedMeasure last = formattedMeasures.get(formattedMeasures.size() - 1);
+                 last.getDate().isBefore(LocalDate.now()); ) {
+                formattedMeasures.add(last.withDate(last.getDate().plusDays(1)));
+                last = formattedMeasures.get(formattedMeasures.size() - 1);
+            }
             formattedMeasureRepository.saveAll(formattedMeasures);
         }));
         final Duration duration = Duration.between(start, Instant.now());
