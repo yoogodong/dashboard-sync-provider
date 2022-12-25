@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public interface MeasureRepository extends JpaRepository<Measure, Long> {
 
     @Query("select max(m.date) from Measure m where m.project = :project and m.metric=:metric")
     ZonedDateTime lastSynced(String project, String metric);
 
+    List<Measure> findByProjectAndMetric(String project, String metric);
 }
